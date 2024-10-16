@@ -1,0 +1,11 @@
+---
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 10
+:queues:
+  - [critical, 2]
+  - [default, 1]
+  - low
+:max_retries: 5
