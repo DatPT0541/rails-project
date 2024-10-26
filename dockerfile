@@ -1,7 +1,7 @@
 FROM ruby:3.2.2
 
-# Cài đặt các gói cần thiết
-RUN apt-get update -qq && apt-get install -y build-essential libmariadb-dev nodejs
+# Cài đặt các gói cần thiết, bao gồm cron
+RUN apt-get update -qq && apt-get install -y build-essential libmariadb-dev nodejs cron
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
@@ -18,8 +18,11 @@ COPY . /app
 # Tiền xử lý assets
 RUN bundle exec rake assets:precompile
 
+# Cài đặt file cron job
+RUN bundle exec whenever --update-crontab
+
 # Mở cổng 3000
 EXPOSE 3000
 
 # Lệnh để khởi động server
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["bash", "-c", "cron && rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"]
