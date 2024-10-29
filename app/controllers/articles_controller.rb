@@ -1,18 +1,31 @@
 class ArticlesController < ApplicationController
-  before_action :authorize_update, only: %i(show)
+  include Authenticable
+  before_action :authenticate_admin!, only: %i(index)
+  before_action :set_article, only: %i(show)
 
   def index
-    @articles = PopularVideoQuery.new.call
+    @articles = Article.all
+    render json: @articles.map{|article| article_data(article)}
   end
 
   def show
-    @article = ArticlePresenter.new(Article.find(params[:id]))
+    render json: article_data(@article)
   end
 
   private
 
-  def authorize_update
-    policy = ArticlePolicy.new(current_user, @article)
-    redirect_to root_path, alert: "Access Denied" unless policy.update?
+  def set_article
+    @article = Article.find_by(hash_id: params[:hash_id])
+    return if @article
+
+    render json: {error: "Article not found"}, status: :not_found
+  end
+
+  def article_data article
+    {
+      hash_id: article.hashed_id,
+      title: article.title,
+      content: article.content
+    }
   end
 end

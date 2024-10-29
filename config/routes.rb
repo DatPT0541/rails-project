@@ -11,4 +11,8 @@ Rails.application.routes.draw do
   post "trigger_failing_job", to: "jobs#trigger_failing_job"
   post "logging_job", to: "jobs#logging_job"
   post "process_numbers", to: "jobs#process_numbers"
+  # get "/users/:id", to: "users#show"
+  post "/login", to: "sessions#create"
+  resources :users, only: %i(show)
+  resources :articles, only: %i(index show), param: :hash_id
 end
