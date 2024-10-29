@@ -6,6 +6,7 @@ ruby "3.2.2"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", require: false
 gem "dotenv-rails"
+gem "draper"
 gem "elasticsearch-model"
 gem "elasticsearch-persistence"
 gem "elasticsearch-rails"
