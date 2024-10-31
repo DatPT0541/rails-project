@@ -10,5 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_29_175853) do
+  create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.string "hash_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hash_id"], name: "index_articles_on_hash_id", unique: true
+    t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "role", default: 0, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "articles", "users"
 end

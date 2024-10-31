@@ -136,6 +136,7 @@ GEM
     ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hashids (1.0.6)
     hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -152,6 +153,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.6.3)
+    jwt (2.9.3)
+      base64
     kredis (1.7.0)
       activemodel (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -347,9 +350,11 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-persistence
   elasticsearch-rails
+  hashids
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  jwt
   kredis
   mysql2 (~> 0.5)
   puma (~> 5.0)

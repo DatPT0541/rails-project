@@ -1,17 +1,19 @@
 class UsersController < ApplicationController
-  def create
-    @user_form = UserForm.new(user_params)
-    if @user_form.save
-      redirect_to root_path, notice: "User created successfully"
+  include Authenticable
+
+  # before_action :authenticate_admin!, only: %i(show)
+  before_action ->{authenticate_owner!(params[:id])}, only: %i(show)
+
+  def show
+    @user = User.find_by(id: params[:id])
+
+    if @user
+      render json: {id: @user.id,
+                    name: @user.name,
+                    email: @user.email},
+             status: :ok
     else
-      render :new
+      render json: {error: "User not found"}, status: :not_found
     end
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(:email, :name, :password,
-                                 :password_confirmation)
   end
 end
