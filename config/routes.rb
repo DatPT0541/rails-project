@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   post "process_numbers", to: "jobs#process_numbers"
   # get "/users/:id", to: "users#show"
   post "/login", to: "sessions#create"
-  resources :users, only: %i(show)
+  resources :users, only: %i(show index)
   resources :articles, only: %i(index show), param: :hash_id
 end
